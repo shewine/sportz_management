@@ -26,6 +26,7 @@ class _AdminScreenState extends State<AdminScreen> {
         ),
         actions: [
           IconButton(
+            tooltip: 'Log Out',
             icon: const Icon(
               Icons.logout,
               color: Colors.white,

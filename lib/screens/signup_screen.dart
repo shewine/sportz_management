@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sportz_management/screens/home_screen.dart';
 
+import '../admin/admin_nav_screen.dart';
 import '../resources/auth_methods.dart';
 import '../utils/colors.dart';
 import '../utils/utils.dart';
@@ -97,7 +98,7 @@ class _LoginScreenState extends State<SignupScreen> {
       });
       // navigate to the home screen
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const AdminScreen()),
+        MaterialPageRoute(builder: (context) => const AdminNavScreen()),
       );
     } else {
       setState(() {

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:sportz_management/admin/admin_nav_screen.dart';
 import 'package:sportz_management/screens/home_screen.dart';
 
 import 'screens/login_screen.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         //   ],
         MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Insta Clone',
+      title: 'Sportz Management',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: mobileBackgroundColor,
       ),
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
             // Checking if the snapshot has any data or not
             if (snapshot.hasData) {
               // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
-              return const HomeScreen();
+              return const AdminNavScreen();
             } else if (snapshot.hasError) {
               return Center(
                 child: Text('${snapshot.error}'),
