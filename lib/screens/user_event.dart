@@ -2,18 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
-import 'event_desciption.dart';
 
 enum SingingCharacter { paid, unpaid }
 
-class EventAdd extends StatefulWidget {
-  const EventAdd({Key? key}) : super(key: key);
+class UserEvent extends StatefulWidget {
+  const UserEvent({Key? key}) : super(key: key);
 
   @override
-  State<EventAdd> createState() => _EventAddState();
+  State<UserEvent> createState() => _UserEventState();
 }
 
-class _EventAddState extends State<EventAdd> {
+class _UserEventState extends State<UserEvent> {
   SingingCharacter? _character = SingingCharacter.paid;
   String dropdownValue = 'Free';
 
@@ -23,24 +22,24 @@ class _EventAddState extends State<EventAdd> {
   String eventWinner = 'Yet to be declared';
   late List registeredUsers = [];
 
-  createToDo() {
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection("Tasks").doc(eventName);
+  // createToDo() {
+  //   DocumentReference documentReference =
+  //       FirebaseFirestore.instance.collection("Tasks").doc(eventName);
 
-    Map<String, Object> addEvents = {
-      "eventTitle": eventName,
-      "eventDesc": eventDesc,
-      "eventDate": eventDate,
-      "eventWinner": eventWinner,
-      "registeredUsers": registeredUsers,
-      "eventType": dropdownValue,
-      // date.toString()
-    };
+  //   Map<String, Object> addEvents = {
+  //     "eventTitle": eventName,
+  //     "eventDesc": eventDesc,
+  //     "eventDate": eventDate,
+  //     "eventWinner": eventWinner,
+  //     "registeredUsers": registeredUsers,
+  //     "eventType": dropdownValue,
+  //     // date.toString()
+  //   };
 
-    documentReference
-        .set(addEvents)
-        .whenComplete(() => print("Data stored successfully"));
-  }
+  //   documentReference
+  //       .set(addEvents)
+  //       .whenComplete(() => print("Data stored successfully"));
+  // }
 
   deleteTodo(item) {
     DocumentReference documentReference =
@@ -59,7 +58,7 @@ class _EventAddState extends State<EventAdd> {
         shadowColor: Colors.grey,
         backgroundColor: mobileBackgroundColor,
         title: const Text(
-          "Event Add Screen",
+          "Select Event Screen",
           style: TextStyle(
               fontWeight: FontWeight.bold, color: Colors.white, fontSize: 25),
         ),
@@ -101,17 +100,7 @@ class _EventAddState extends State<EventAdd> {
                         snapshot.data?.docs[index];
 
                     return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Description(
-                              title: documentSnapshot!['eventTitle'],
-                              description: documentSnapshot['eventDesc'],
-                            ),
-                          ),
-                        );
-                      },
+                      onTap: null,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -154,6 +143,13 @@ class _EventAddState extends State<EventAdd> {
                                     child: Text((documentSnapshot != null)
                                         ? ('Venue: ' +
                                             documentSnapshot["eventDate"])
+                                        : ""),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 20),
+                                    child: Text((documentSnapshot != null)
+                                        ? ('Type: ' +
+                                            documentSnapshot["eventType"])
                                         : ""),
                                   ),
                                 ],
@@ -234,6 +230,12 @@ class _EventAddState extends State<EventAdd> {
                               //     color: Colors.deepPurple,
                               //   ),
                               // ),
+                              // Container(
+                              //   margin: const EdgeInsets.only(left: 20),
+                              //   child: Text((documentSnapshot != null)
+                              //       ? (documentSnapshot["eventType"])
+                              //       : ""),
+                              // ),
                               Container(
                                 child: IconButton(
                                   onPressed: () {
@@ -245,8 +247,8 @@ class _EventAddState extends State<EventAdd> {
                                     });
                                   },
                                   icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+                                    Icons.select_all,
+                                    color: Colors.green,
                                   ),
                                 ),
                               ),
@@ -303,125 +305,125 @@ class _EventAddState extends State<EventAdd> {
       //   child: Text('Events Screen'),
       // ),
 
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                scrollable: true,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                title: const Text("Add Event"),
-                content: Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.33,
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter Event Name',
-                        ),
-                        onChanged: (String value) {
-                          eventName = value;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Event Place and Decription',
-                        ),
-                        onChanged: (String value) {
-                          eventDesc = value;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Event Date and Time',
-                        ),
-                        onChanged: (String value) {
-                          eventDate = value;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      DropdownButton<String>(
-                        value: dropdownValue,
-                        icon: const Icon(Icons.arrow_downward),
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.white),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.white,
-                        ),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                        },
-                        items: <String>['Free', 'Paid']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.green,
+      //   child: const Icon(Icons.add),
+      //   onPressed: () {
+      //     showDialog(
+      //       context: context,
+      //       builder: (BuildContext context) {
+      //         return AlertDialog(
+      //           scrollable: true,
+      //           shape: RoundedRectangleBorder(
+      //               borderRadius: BorderRadius.circular(10)),
+      //           title: const Text("Add Event"),
+      //           content: Container(
+      //             width: MediaQuery.of(context).size.width * 0.8,
+      //             height: MediaQuery.of(context).size.height * 0.33,
+      //             child: Column(
+      //               children: [
+      //                 TextField(
+      //                   decoration: const InputDecoration(
+      //                     border: OutlineInputBorder(),
+      //                     hintText: 'Enter Event Name',
+      //                   ),
+      //                   onChanged: (String value) {
+      //                     eventName = value;
+      //                   },
+      //                 ),
+      //                 const SizedBox(height: 10),
+      //                 TextField(
+      //                   decoration: const InputDecoration(
+      //                     border: OutlineInputBorder(),
+      //                     hintText: 'Event Place and Decription',
+      //                   ),
+      //                   onChanged: (String value) {
+      //                     eventDesc = value;
+      //                   },
+      //                 ),
+      //                 const SizedBox(height: 10),
+      //                 TextField(
+      //                   decoration: const InputDecoration(
+      //                     border: OutlineInputBorder(),
+      //                     hintText: 'Event Date and Time',
+      //                   ),
+      //                   onChanged: (String value) {
+      //                     eventDate = value;
+      //                   },
+      //                 ),
+      //                 const SizedBox(height: 10),
+      //                 DropdownButton<String>(
+      //                   value: dropdownValue,
+      //                   icon: const Icon(Icons.arrow_downward),
+      //                   elevation: 16,
+      //                   style: const TextStyle(color: Colors.white),
+      //                   underline: Container(
+      //                     height: 2,
+      //                     color: Colors.white,
+      //                   ),
+      //                   onChanged: (String? newValue) {
+      //                     setState(() {
+      //                       dropdownValue = newValue!;
+      //                     });
+      //                   },
+      //                   items: <String>['Free', 'Paid']
+      //                       .map<DropdownMenuItem<String>>((String value) {
+      //                     return DropdownMenuItem<String>(
+      //                       value: value,
+      //                       child: Text(value),
+      //                     );
+      //                   }).toList(),
+      //                 ),
 
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   children: [
-                      //     const Text('Paid'),
-                      //     Radio<SingingCharacter>(
-                      //       value: SingingCharacter.paid,
-                      //       groupValue: _character,
-                      //       onChanged: (SingingCharacter? value) {
-                      //         setState(() {
-                      //           _character = value;
-                      //         });
-                      //       },
-                      //     ),
-                      //     const Text('Unpaid'),
-                      //     Radio<SingingCharacter>(
-                      //       value: SingingCharacter.unpaid,
-                      //       groupValue: _character,
-                      //       onChanged: (SingingCharacter? value) {
-                      //         setState(() {
-                      //           _character = value;
-                      //         });
-                      //       },
-                      //     ),
-                      //   ],
-                      // ),
-                    ],
-                  ),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        createToDo();
-                        //todos.add(title);
-                        null;
-                      });
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      "Add",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              );
-            },
-          );
-        },
-      ),
+      //                 // Row(
+      //                 //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //                 //   children: [
+      //                 //     const Text('Paid'),
+      //                 //     Radio<SingingCharacter>(
+      //                 //       value: SingingCharacter.paid,
+      //                 //       groupValue: _character,
+      //                 //       onChanged: (SingingCharacter? value) {
+      //                 //         setState(() {
+      //                 //           _character = value;
+      //                 //         });
+      //                 //       },
+      //                 //     ),
+      //                 //     const Text('Unpaid'),
+      //                 //     Radio<SingingCharacter>(
+      //                 //       value: SingingCharacter.unpaid,
+      //                 //       groupValue: _character,
+      //                 //       onChanged: (SingingCharacter? value) {
+      //                 //         setState(() {
+      //                 //           _character = value;
+      //                 //         });
+      //                 //       },
+      //                 //     ),
+      //                 //   ],
+      //                 // ),
+      //               ],
+      //             ),
+      //           ),
+      //           actions: <Widget>[
+      //             TextButton(
+      //               onPressed: () {
+      //                 setState(() {
+      //                   createToDo();
+      //                   //todos.add(title);
+      //                   null;
+      //                 });
+      //                 Navigator.of(context).pop();
+      //               },
+      //               child: const Text(
+      //                 "Add",
+      //                 style: TextStyle(fontWeight: FontWeight.bold),
+      //               ),
+      //             )
+      //           ],
+      //         );
+      //       },
+      //     );
+      //   },
+      // ),
     );
   }
 }

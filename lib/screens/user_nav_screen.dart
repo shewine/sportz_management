@@ -2,10 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sportz_management/admin/event_add.dart';
+import 'package:sportz_management/screens/user_event.dart';
 
 import '../screens/home_screens.dart';
 import '../utils/colors.dart';
-import 'results_add.dart';
+import 'user_result.dart';
 
 // const mobileBackgroundColor = Color.fromRGBO(0, 0, 0, 1);
 // const webBackgroundColor = Color.fromRGBO(18, 18, 18, 1);
@@ -16,10 +17,10 @@ import 'results_add.dart';
 
 List<Widget> homeScreenItems = [
   const HomeScreen(),
-  const EventAdd(),
-  const ResultAdd(),
-  const EventAdd(),
-  const ResultAdd(),
+  const UserEvent(),
+
+  const UserResult(),
+
   // HistoryScreen(
   //   uid: FirebaseAuth.instance.currentUser!.uid,
   // ),
@@ -28,14 +29,14 @@ List<Widget> homeScreenItems = [
   // ),
 ];
 
-class AdminNavScreen extends StatefulWidget {
-  const AdminNavScreen({Key? key}) : super(key: key);
+class UserNavScreen extends StatefulWidget {
+  const UserNavScreen({Key? key}) : super(key: key);
 
   @override
-  State<AdminNavScreen> createState() => _AdminNavScreenState();
+  State<UserNavScreen> createState() => _UserNavScreenState();
 }
 
-class _AdminNavScreenState extends State<AdminNavScreen> {
+class _UserNavScreenState extends State<UserNavScreen> {
   int _page = 0;
   late PageController pageController; // for tabs animation
 

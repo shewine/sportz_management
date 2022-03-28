@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sportz_management/screens/home_screen.dart';
+import 'package:sportz_management/screens/old.dart';
+import 'package:sportz_management/screens/user_nav_screen.dart';
 
 import '../admin/admin_nav_screen.dart';
 import '../resources/auth_methods.dart';
 import '../utils/colors.dart';
 import '../utils/utils.dart';
 import '../widgets/text_field_input.dart';
-import 'admin_screen.dart';
+import 'home_screens.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text, password: _passwordController.text);
     if (res == 'success') {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          MaterialPageRoute(builder: (context) => const UserNavScreen()),
           (route) => false);
 
       setState(() {
