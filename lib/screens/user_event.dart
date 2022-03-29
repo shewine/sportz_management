@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sportz_management/models/user.dart';
 
+import '../resources/auth_methods.dart';
+import '../resources/firestore_methods.dart';
 import '../utils/colors.dart';
+import '../widgets/like_animation.dart';
 
-enum SingingCharacter { paid, unpaid }
+// enum SingingCharacter { paid, unpaid }
 
 class UserEvent extends StatefulWidget {
   const UserEvent({Key? key}) : super(key: key);
@@ -13,8 +17,12 @@ class UserEvent extends StatefulWidget {
 }
 
 class _UserEventState extends State<UserEvent> {
-  SingingCharacter? _character = SingingCharacter.paid;
+  User? user;
+  final AuthMethods _authMethods = AuthMethods();
+  // SingingCharacter? _character = SingingCharacter.paid;
+  bool isLikeAnimating = false;
   String dropdownValue = 'Free';
+  bool value = false;
 
   String eventName = '';
   String eventDesc = '';
@@ -48,6 +56,14 @@ class _UserEventState extends State<UserEvent> {
     documentReference
         .delete()
         .whenComplete(() => print("deleted successfully"));
+  }
+
+  @override
+  void initState() async {
+    // TODO: implement initState
+    User user = await _authMethods.getUserDetails();
+    user = user;
+    super.initState();
   }
 
   @override
@@ -236,22 +252,57 @@ class _UserEventState extends State<UserEvent> {
                               //       ? (documentSnapshot["eventType"])
                               //       : ""),
                               // ),
-                              Container(
-                                child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      //todos.removeAt(index);
-                                      deleteTodo((documentSnapshot != null)
-                                          ? (documentSnapshot["eventTitle"])
-                                          : "");
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.select_all,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ),
+
+                              // LikeAnimation(
+                              //   isAnimating:
+                              //       documentSnapshot!['registeredUsers']
+                              //           .contains(user!.uid),
+                              //   smallLike: true,
+                              //   child: IconButton(
+                              //     icon: documentSnapshot['registeredUsers']
+                              //             .contains(user!.uid)
+                              //         ? const Icon(
+                              //             Icons.favorite,
+                              //             color: Colors.red,
+                              //           )
+                              //         : const Icon(
+                              //             Icons.favorite_border,
+                              //           ),
+                              //     onPressed: () => FireStoreMethods().likePost(
+                              //       documentSnapshot['postId'].toString(),
+                              //       user!.uid,
+                              //       documentSnapshot['registeredUsers'],
+                              //     ),
+                              //   ),
+                              // ),
+
+                              // Container(
+                              //   child: Checkbox(
+                              //     checkColor: Colors.white,
+                              //     // fillColor: Colors.black,
+                              //     value: value,
+                              //     onChanged: (bool? value) {
+                              //       setState(() {
+                              //         this.value = value!;
+                              //       });
+                              //     },
+                              //   ),
+
+                              // IconButton(
+                              //   onPressed: () {
+                              //     setState(() {
+                              //       //todos.removeAt(index);
+                              //       deleteTodo((documentSnapshot != null)
+                              //           ? (documentSnapshot["eventTitle"])
+                              //           : "");
+                              //     });
+                              //   },
+                              //   icon: const Icon(
+                              //     Icons.select_all,
+                              //     color: Colors.green,
+                              //   ),
+                              // ),
+                              // ),
                             ],
                           ),
                         ),
