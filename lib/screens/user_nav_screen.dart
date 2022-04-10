@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sportz_management/admin/event_add.dart';
-import 'package:sportz_management/screens/user_event.dart';
+import 'package:sportz_management/screens/user_result.dart';
 
+import '../providers/user_provider.dart';
 import '../screens/home_screens.dart';
 import '../utils/colors.dart';
-import 'user_result.dart';
+import 'user_event.dart';
 
 // const mobileBackgroundColor = Color.fromRGBO(0, 0, 0, 1);
 // const webBackgroundColor = Color.fromRGBO(18, 18, 18, 1);
@@ -18,7 +20,8 @@ import 'user_result.dart';
 List<Widget> homeScreenItems = [
   const HomeScreen(),
   const UserEvent(),
-
+  const UserResult(),
+  const UserEvent(),
   const UserResult(),
 
   // HistoryScreen(
@@ -43,6 +46,7 @@ class _UserNavScreenState extends State<UserNavScreen> {
   @override
   void initState() {
     super.initState();
+
     pageController = PageController();
   }
 

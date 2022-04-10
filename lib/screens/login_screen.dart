@@ -117,48 +117,52 @@ class _LoginScreenState extends State<LoginScreen> {
 
               InkWell(
                 onTap: loginUser,
-                child: _isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Container(
-                        child: const Text("User Log in"),
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: const ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                          color: blueColor,
-                        ),
+                child:
+                    // _isLoading
+                    //     ? const Center(
+                    //         child: CircularProgressIndicator(),
+                    //       )
+                    //     :
+                    Container(
+                  child: const Text("User Log in"),
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: const ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
                       ),
+                    ),
+                    color: blueColor,
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 12,
               ),
               InkWell(
                 onTap: loginAdmin,
-                child: _isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Container(
-                        child: const Text("Admin Log in"),
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: const ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                          color: blueColor,
-                        ),
+                child:
+                    //  _isLoading
+                    //     ? const Center(
+                    //         child: CircularProgressIndicator(),
+                    //       )
+                    //     :
+                    Container(
+                  child: const Text("Admin Log in"),
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: const ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
                       ),
+                    ),
+                    color: blueColor,
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 12,

@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sportz_management/admin/event_add.dart';
 
+import '../providers/user_provider.dart';
 import '../screens/home_screens.dart';
 import '../utils/colors.dart';
 import 'results_add.dart';
@@ -42,6 +44,7 @@ class _AdminNavScreenState extends State<AdminNavScreen> {
   @override
   void initState() {
     super.initState();
+
     pageController = PageController();
   }
 

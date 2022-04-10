@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sportz_management/admin/admin_nav_screen.dart';
 import 'package:sportz_management/screens/old.dart';
 
+import 'providers/user_provider.dart';
 import 'screens/login_screen.dart';
+import 'screens/user_nav_screen.dart';
 import 'utils/colors.dart';
 
 void main() async {
@@ -29,53 +32,53 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return
-        // MultiProvider(
-        //   providers: [
-        //     ChangeNotifierProvider(
-        //       create: (_) => UserProvider(),
-        //     ),
-        //   ],
-        MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sportz Management',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: mobileBackgroundColor,
-      ),
-      // home: const ResponsiveLayout(
-      //   mobileScreenLayout: MobileScreenLayout(),
-      //   webScreenLayout: WebScreenLayout(),
-      // ),
-      home:
-          // const LoginScreen(),
-          StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            // Checking if the snapshot has any data or not
-            if (snapshot.hasData) {
-              // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
-              return const AdminNavScreen();
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text('${snapshot.error}'),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Sportz Management',
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: mobileBackgroundColor,
+        ),
+        // home: const ResponsiveLayout(
+        //   mobileScreenLayout: MobileScreenLayout(),
+        //   webScreenLayout: WebScreenLayout(),
+        // ),
+        home:
+            // const LoginScreen(),
+            StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              // Checking if the snapshot has any data or not
+              if (snapshot.hasData) {
+                // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
+                return const AdminNavScreen();
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
+              }
+            }
+
+            // means connection to future hasnt been made yet
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             }
-          }
 
-          // means connection to future hasnt been made yet
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return const LoginScreen();
-        },
+            return const LoginScreen();
+          },
+        ),
+        // const Scaffold(
+        //   body: Text('Start Page'),
+        // ),
       ),
-      // const Scaffold(
-      //   body: Text('Start Page'),
-      // ),
     );
   }
 }

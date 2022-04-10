@@ -1,37 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Events {
-  final String eventTitle;
-  final String uid;
+  final String eventName;
+  // final String uid;
   final String eventDesc;
-  final String eventsId;
+  final String eventId;
   final registeredUsers;
-  final String eventsId;
+  final String eventType;
+  final String eventWinner;
+  final String eventDate;
 
   const Events({
-    required this.eventTitle,
-    required this.uid,
+    required this.eventName,
+    // required this.uid,
     required this.eventDesc,
     required this.registeredUsers,
-    required this.eventsId,
+    required this.eventId,
+    required this.eventType,
+    required this.eventWinner,
+    required this.eventDate,
   });
 
   static Events fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return Events(
-        eventTitle: snapshot["eventTitle"],
-        uid: snapshot["uid"],
-        registeredUsers: snapshot["registeredUsers"],
-        eventsId: snapshot["EventsId"],
-        eventDesc: snapshot["eventDesc"]);
+      eventName: snapshot["eventName"],
+      // uid: snapshot["uid"],
+      eventDesc: snapshot["eventDesc"],
+      eventId: snapshot["EventsId"],
+      registeredUsers: snapshot["registeredUsers"],
+      eventType: snapshot["eventType"],
+      eventWinner: snapshot["eventWinner"],
+      eventDate: snapshot["eventDate"],
+    );
   }
 
   Map<String, dynamic> toJson() => {
-        "eventTitle": eventTitle,
-        "uid": uid,
-        "registeredUsers": registeredUsers,
+        "eventName": eventName,
+        // "uid": uid,
         "eventDesc": eventDesc,
-        "eventsId": eventsId,
+        "eventId": eventId,
+        "registeredUsers": registeredUsers,
+        "eventType": eventType,
+        "eventWinner": eventWinner,
+        "eventDate": eventDate,
       };
 }

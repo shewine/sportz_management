@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/user_provider.dart';
+import '../resources/firestore_methods.dart';
 import '../utils/colors.dart';
+import '../utils/utils.dart';
 import 'event_desciption.dart';
 
 enum SingingCharacter { paid, unpaid }
@@ -14,7 +18,9 @@ class EventAdd extends StatefulWidget {
 }
 
 class _EventAddState extends State<EventAdd> {
-  SingingCharacter? _character = SingingCharacter.paid;
+  late StateSetter _setState;
+
+  bool isLoading = false;
   String dropdownValue = 'Free';
 
   String eventName = '';
@@ -22,6 +28,60 @@ class _EventAddState extends State<EventAdd> {
   String eventDate = '';
   String eventWinner = 'Yet to be declared';
   late List registeredUsers = [];
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   addData();
+  // }
+
+  // addData() async {
+  //   UserProvider _userProvider =
+  //       Provider.of<UserProvider>(context, listen: false);
+  //   await _userProvider.refreshAdmin();
+  // }
+
+  void postEvent(
+      // String uid,
+      // String eventName,
+      // String eventDesc,
+      // String eventDate,
+      // String eventWinner,
+      ) async {
+    setState(() {
+      isLoading = true;
+    });
+    // start the loading
+    try {
+      // upload to storage and db
+      String res = await FireStoreMethods().uploadEvent(
+        eventDesc,
+        eventName,
+        dropdownValue,
+        eventWinner,
+        eventDate,
+      );
+      if (res == "success") {
+        setState(() {
+          isLoading = false;
+        });
+        showSnackBar(
+          context,
+          'Posted!',
+        );
+      } else {
+        showSnackBar(context, res);
+      }
+    } catch (err) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(
+        context,
+        err.toString(),
+      );
+    }
+  }
 
   createToDo() {
     DocumentReference documentReference =
@@ -53,6 +113,8 @@ class _EventAddState extends State<EventAdd> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -102,15 +164,16 @@ class _EventAddState extends State<EventAdd> {
 
                     return InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Description(
-                              title: documentSnapshot!['eventTitle'],
-                              description: documentSnapshot['eventDesc'],
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => Description(
+                        //       title: documentSnapshot!['eventName'],
+                        //       description: documentSnapshot['eventDesc'],
+                        //       id: documentSnapshot['eventId'],
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -131,7 +194,7 @@ class _EventAddState extends State<EventAdd> {
                                     margin: const EdgeInsets.only(left: 20),
                                     child: Text(
                                       (documentSnapshot != null)
-                                          ? (documentSnapshot["eventTitle"])
+                                          ? (documentSnapshot["eventName"])
                                           : "",
                                       style: const TextStyle(
                                           fontSize: 20,
@@ -154,6 +217,13 @@ class _EventAddState extends State<EventAdd> {
                                     child: Text((documentSnapshot != null)
                                         ? ('Venue: ' +
                                             documentSnapshot["eventDate"])
+                                        : ""),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 20),
+                                    child: Text((documentSnapshot != null)
+                                        ? ('Type: ' +
+                                            documentSnapshot["eventType"])
                                         : ""),
                                   ),
                                 ],
@@ -240,7 +310,7 @@ class _EventAddState extends State<EventAdd> {
                                     setState(() {
                                       //todos.removeAt(index);
                                       deleteTodo((documentSnapshot != null)
-                                          ? (documentSnapshot["eventTitle"])
+                                          ? (documentSnapshot["eventId"])
                                           : "");
                                     });
                                   },
@@ -309,106 +379,154 @@ class _EventAddState extends State<EventAdd> {
         onPressed: () {
           showDialog(
             context: context,
-            builder: (BuildContext context) {
+            builder: (
+              BuildContext context,
+            ) {
               return AlertDialog(
+                content: StatefulBuilder(
+                  // You need this, notice the parameters below:
+                  builder: (BuildContext context, StateSetter setState) {
+                    _setState = setState;
+                    return Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: MediaQuery.of(context).size.height * 0.33,
+                      child: Column(
+                        children: [
+                          TextField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter Event Name',
+                            ),
+                            onChanged: (String value) {
+                              eventName = value;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          TextField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Event Place and Decription',
+                            ),
+                            onChanged: (String value) {
+                              eventDesc = value;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          TextField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Event Date and Time',
+                            ),
+                            onChanged: (String value) {
+                              eventDate = value;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          DropdownButton<String>(
+                            value: dropdownValue,
+                            icon: const Icon(Icons.arrow_downward),
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.white),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.white,
+                            ),
+                            onChanged: (String? newValue) {
+                              _setState(() {
+                                dropdownValue = newValue!;
+                              });
+                            },
+                            items: <String>['Free', 'Paid']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
                 scrollable: true,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 title: const Text("Add Event"),
-                content: Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.33,
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter Event Name',
-                        ),
-                        onChanged: (String value) {
-                          eventName = value;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Event Place and Decription',
-                        ),
-                        onChanged: (String value) {
-                          eventDesc = value;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Event Date and Time',
-                        ),
-                        onChanged: (String value) {
-                          eventDate = value;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      DropdownButton<String>(
-                        value: dropdownValue,
-                        icon: const Icon(Icons.arrow_downward),
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.white),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.white,
-                        ),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                        },
-                        items: <String>['Free', 'Paid']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
+                // content: Container(
+                //   width: MediaQuery.of(context).size.width * 0.8,
+                //   height: MediaQuery.of(context).size.height * 0.33,
+                //   child: Column(
+                //     children: [
+                //       TextField(
+                //         decoration: const InputDecoration(
+                //           border: OutlineInputBorder(),
+                //           hintText: 'Enter Event Name',
+                //         ),
+                //         onChanged: (String value) {
+                //           eventName = value;
+                //         },
+                //       ),
+                //       const SizedBox(height: 10),
+                //       TextField(
+                //         decoration: const InputDecoration(
+                //           border: OutlineInputBorder(),
+                //           hintText: 'Event Place and Decription',
+                //         ),
+                //         onChanged: (String value) {
+                //           eventDesc = value;
+                //         },
+                //       ),
+                //       const SizedBox(height: 10),
+                //       TextField(
+                //         decoration: const InputDecoration(
+                //           border: OutlineInputBorder(),
+                //           hintText: 'Event Date and Time',
+                //         ),
+                //         onChanged: (String value) {
+                //           eventDate = value;
+                //         },
+                //       ),
+                //       const SizedBox(height: 10),
+                //       DropdownButton<String>(
+                //         value: dropdownValue,
+                //         icon: const Icon(Icons.arrow_downward),
+                //         elevation: 16,
+                //         style: const TextStyle(color: Colors.white),
+                //         underline: Container(
+                //           height: 2,
+                //           color: Colors.white,
+                //         ),
+                //         onChanged: (String? newValue) {
+                //           setState(() {
+                //             dropdownValue = newValue!;
+                //           });
+                //         },
+                //         items: <String>['Free', 'Paid']
+                //             .map<DropdownMenuItem<String>>((String value) {
+                //           return DropdownMenuItem<String>(
+                //             value: value,
+                //             child: Text(value),
+                //           );
+                //         }).toList(),
+                //       ),
 
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   children: [
-                      //     const Text('Paid'),
-                      //     Radio<SingingCharacter>(
-                      //       value: SingingCharacter.paid,
-                      //       groupValue: _character,
-                      //       onChanged: (SingingCharacter? value) {
-                      //         setState(() {
-                      //           _character = value;
-                      //         });
-                      //       },
-                      //     ),
-                      //     const Text('Unpaid'),
-                      //     Radio<SingingCharacter>(
-                      //       value: SingingCharacter.unpaid,
-                      //       groupValue: _character,
-                      //       onChanged: (SingingCharacter? value) {
-                      //         setState(() {
-                      //           _character = value;
-                      //         });
-                      //       },
-                      //     ),
-                      //   ],
-                      // ),
-                    ],
-                  ),
-                ),
+                //     ],
+                //   ),
+                // ),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
-                      setState(() {
-                        createToDo();
-                        //todos.add(title);
-                        null;
-                      });
+                      postEvent(
+                          // userProvider.getAdmin.uid,
+                          );
+                      null;
+                      // setState(() {
+
+                      //   // createToDo();
+                      //   // //todos.add(title);
+                      //   // null;
+                      // });
                       Navigator.of(context).pop();
                     },
                     child: const Text(
