@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -77,108 +79,111 @@ class _ResultAddState extends State<ResultAdd> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                'Game Result: ',
-              ),
-            ],
-          ),
-          StreamBuilder<QuerySnapshot>(
-            stream:
-                FirebaseFirestore.instance.collection('results').snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const Text('Something went wrong');
-              } else if (snapshot.hasData || snapshot.data != null) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    QueryDocumentSnapshot<Object?>? documentSnapshot =
-                        snapshot.data?.docs[index];
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text(
+                  'Event Result: ',
+                ),
+              ],
+            ),
+            StreamBuilder<QuerySnapshot>(
+              stream:
+                  FirebaseFirestore.instance.collection('results').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong');
+                } else if (snapshot.hasData || snapshot.data != null) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data?.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      QueryDocumentSnapshot<Object?>? documentSnapshot =
+                          snapshot.data?.docs[index];
 
-                    return InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.blueGrey,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 90,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 20),
-                                    child: Text(
-                                      (documentSnapshot != null)
-                                          ? (documentSnapshot["eventTitle"])
-                                          : "",
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                      return InkWell(
+                        onTap: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.blueGrey,
+                                borderRadius: BorderRadius.circular(10)),
+                            height: 90,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 20),
+                                      child: Text(
+                                        (documentSnapshot != null)
+                                            ? (documentSnapshot["eventTitle"])
+                                            : "",
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 20),
+                                      child: Text((documentSnapshot != null)
+                                          ? ('Winner Name: ' +
+                                              documentSnapshot["eventWinner"])
+                                          : ""),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        //todos.removeAt(index);
+                                        deleteTodo((documentSnapshot != null)
+                                            ? (documentSnapshot["eventTitle"])
+                                            : "");
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 20),
-                                    child: Text((documentSnapshot != null)
-                                        ? ('Winner Name: ' +
-                                            documentSnapshot["eventWinner"])
-                                        : ""),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      //todos.removeAt(index);
-                                      deleteTodo((documentSnapshot != null)
-                                          ? (documentSnapshot["eventTitle"])
-                                          : "");
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              }
-              return const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.red,
+                      );
+                    },
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.red,
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
 
       // const Center(

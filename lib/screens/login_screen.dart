@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Radius.circular(5),
                       ),
                     ),
-                    color: blueColor,
+                    color: Colors.redAccent,
                   ),
                 ),
               ),

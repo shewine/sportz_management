@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
         shadowColor: Colors.grey,
         backgroundColor: mobileBackgroundColor,
         title: const CircleAvatar(
-          backgroundImage: AssetImage('assets/watulogo.jpg'),
+          backgroundImage: AssetImage('assets/atha.jpg'),
           radius: 25,
         ),
         // const Text(
@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 //   ),
                 // ),
                 const Text(
-                  'Watumull Institute Presents',
+                  'Atharva College Presents',
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Image.asset('assets/sportz.png'),
                 const Text(
-                  'Kala-Krida',
+                  'Rhytm',
                   style: const TextStyle(
                       fontSize: 40, fontWeight: FontWeight.bold),
                 ),
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     image: const DecorationImage(
-                      image: AssetImage('assets/allhome.jpeg'),
+                      image: AssetImage('assets/ess.jpg'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     image: const DecorationImage(
-                      image: AssetImage('assets/w2.jpeg'),
+                      image: AssetImage('assets/ry.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -194,7 +194,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     image: const DecorationImage(
-                      image: AssetImage('assets/w3.jpeg'),
+                      image: AssetImage('assets/ry2.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      // Text(
+                      //   'Watumull',
+                      //   style: TextStyle(color: Colors.white, fontSize: 26),
+                      // ),
+
+                      // Text(
+                      //   "You ca search quickly for\nthe job you want",
+                      //   style: TextStyle(
+                      //       height: 1.8, fontWeight: FontWeight.w400, color: Colors.white),
+                      // ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(25),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 40),
+                  height: 150,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/ry4.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
