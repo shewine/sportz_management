@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Image.asset('assets/sportz.png'),
                 const Text(
-                  'Rhytm',
+                  'Rhythm',
                   style: const TextStyle(
                       fontSize: 40, fontWeight: FontWeight.bold),
                 ),

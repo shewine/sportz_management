@@ -137,6 +137,7 @@ class _EventAddState extends State<EventAdd> {
         ],
       ),
       body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             const SizedBox(
@@ -189,19 +190,26 @@ class _EventAddState extends State<EventAdd> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                       margin: const EdgeInsets.only(left: 20),
-                                      child: Text(
-                                        (documentSnapshot != null)
-                                            ? (documentSnapshot["eventName"])
-                                            : "",
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                      child: Expanded(
+                                        child: Text(
+                                          (documentSnapshot != null)
+                                              ? (documentSnapshot["eventName"])
+                                              : "",
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                          maxLines: 3,
+                                          softWrap: false,
+                                          overflow: TextOverflow.ellipsis,
+                                          // softWrap: false,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(
@@ -230,82 +238,6 @@ class _EventAddState extends State<EventAdd> {
                                     ),
                                   ],
                                 ),
-                                // IconButton(
-                                //   onPressed: () {
-                                //     // description = documentSnapshot["eventDate"];
-                                //     showDialog(
-                                //         context: context,
-                                //         builder: (BuildContext context) {
-                                //           return AlertDialog(
-                                //             shape: RoundedRectangleBorder(
-                                //                 borderRadius:
-                                //                     BorderRadius.circular(10)),
-                                //             title: const Text("Add Todo"),
-                                //             content: Container(
-                                //               width: 400,
-                                //               height: 145,
-                                //               child: Column(
-                                //                 children: [
-                                //                   // TextField(
-                                //                   //   onChanged: (String value) {
-                                //                   //     title = value;
-                                //                   //   },
-                                //                   // ),
-                                //                   TextField(
-                                //                     onChanged: (String value) {
-                                //                       description = value;
-                                //                     },
-                                //                   ),
-                                //                   Row(
-                                //                     children: [
-                                //                       const Text(
-                                //                           'Completion Date:'),
-                                //                       TextButton(
-                                //                         onPressed: () {
-                                //                           setState(() {
-                                //                             datepicker();
-                                //                           });
-                                //                         },
-                                //                         child: const Icon(
-                                //                             Icons.date_range),
-                                //                         //  Text(
-                                //                         //   DateFormat("dd/MM/yyyy")
-                                //                         //       .format(date)
-                                //                         //       .toString(),
-                                //                         // ),
-                                //                       ),
-                                //                     ],
-                                //                   )
-                                //                 ],
-                                //               ),
-                                //             ),
-                                //             actions: <Widget>[
-                                //               TextButton(
-                                //                   onPressed: () {
-                                //                     setState(() {
-                                //                       updateTodo(title);
-                                //                     });
-                                //                     Navigator.of(context).pop();
-                                //                   },
-                                //                   child: const Text("Add"))
-                                //             ],
-                                //           );
-                                //         });
-
-                                //     // setState(() {
-                                //     //   //todos.removeAt(index);
-                                //     //   updateTodo((documentSnapshot != null)
-                                //     //       ? (documentSnapshot["todoTitle"])
-                                //     //       : "");
-
-                                //     //   print(dayOnly);
-                                //     // });
-                                //   },
-                                //   icon: const Icon(
-                                //     Icons.edit,
-                                //     color: Colors.deepPurple,
-                                //   ),
-                                // ),
                                 Container(
                                   child: IconButton(
                                     onPressed: () {
@@ -327,35 +259,6 @@ class _EventAddState extends State<EventAdd> {
                           ),
                         ),
                       );
-                      // Card(
-                      //  elevation: 4,
-                      //  child: ListTile(
-                      //    // leading: Text(DateFormat.yMd().format(date)),
-                      //    leading: Text((documentSnapshot != null)
-                      //        ? (documentSnapshot["todoDate"])
-                      //        : ""),
-                      //    title: Text((documentSnapshot != null)
-                      //        ? (documentSnapshot["todoTitle"])
-                      //        : ""),
-                      //    subtitle: Text((documentSnapshot != null)
-                      //        ? ((documentSnapshot["todoDesc"] != null)
-                      //            ? documentSnapshot["todoDesc"]
-                      //            : "")
-                      //        : ""),
-                      //    trailing: IconButton(
-                      //      icon: const Icon(Icons.delete),
-                      //      color: Colors.red,
-                      //      onPressed: () {
-                      //        setState(() {
-                      //          //todos.removeAt(index);
-                      //          deleteTodo((documentSnapshot != null)
-                      //              ? (documentSnapshot["todoTitle"])
-                      //              : "");
-                      //        });
-                      //      },
-                      //    ),
-                      //  ),
-                      //   );
                     },
                   );
                 }

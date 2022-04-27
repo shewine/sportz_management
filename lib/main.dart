@@ -3,11 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportz_management/admin/admin_nav_screen.dart';
-import 'package:sportz_management/screens/old.dart';
 
 import 'providers/user_provider.dart';
 import 'screens/login_screen.dart';
-import 'screens/user_nav_screen.dart';
+
 import 'utils/colors.dart';
 
 void main() async {
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Sportz Management',
+        title: 'Event Management',
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
