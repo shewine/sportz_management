@@ -7,6 +7,7 @@ import 'package:sportz_management/admin/event_add.dart';
 import '../providers/user_provider.dart';
 import '../screens/home_screens.dart';
 import '../utils/colors.dart';
+import '../widgets/flchartlogic.dart';
 import 'results_add.dart';
 
 // const mobileBackgroundColor = Color.fromRGBO(0, 0, 0, 1);
@@ -17,11 +18,11 @@ import 'results_add.dart';
 // const secondaryColor = Colors.grey;
 
 List<Widget> homeScreenItems = [
-  const HomeScreen(),
+  const LineChartSample2(),
   const EventAdd(),
   const ResultAdd(),
-  const EventAdd(),
-  const ResultAdd(),
+  // const EventAdd(),
+  // const ResultAdd(),
   // HistoryScreen(
   //   uid: FirebaseAuth.instance.currentUser!.uid,
   // ),

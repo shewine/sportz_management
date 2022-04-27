@@ -8,6 +8,7 @@ import 'package:sportz_management/screens/user_result.dart';
 import '../providers/user_provider.dart';
 import '../screens/home_screens.dart';
 import '../utils/colors.dart';
+import '../widgets/flchartlogic.dart';
 import 'user_event.dart';
 
 // const mobileBackgroundColor = Color.fromRGBO(0, 0, 0, 1);
@@ -18,7 +19,7 @@ import 'user_event.dart';
 // const secondaryColor = Colors.grey;
 
 List<Widget> homeScreenItems = [
-  const HomeScreen(),
+  const LineChartSample2(),
   const UserEvent(),
   const UserResult(),
   const UserEvent(),
