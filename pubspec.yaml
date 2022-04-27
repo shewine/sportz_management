@@ -44,6 +44,8 @@ dependencies:
   video_player: ^2.3.0
   flutter_inappwebview: ^5.3.2
   flutter_launcher_icons: ^0.9.2
+  fl_chart: ^0.50.1
+
   # image_picker: ^0.8.4+4
   # image_picker_for_web: ^2.1.5
   # provider: ^6.0.2
@@ -60,7 +62,7 @@ flutter_icons:
   image_path: "assets/appo.png"
   android: true
   ios: true
-  
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

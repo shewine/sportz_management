@@ -86,13 +86,11 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(child: Container(), flex: 2),
-              // svg image
-              // SvgPicture.asset(
-              //   'assets/game.svg',
-              //   color: primaryColor,
-              //   height: 60,
-              // ),
+
+             Padding(
+               padding: const EdgeInsets.only(top:50.0),
+               child: Image.asset('assets/appo.png',height: 100,),
+             ),
               const SizedBox(
                 height: 24,
               ),
