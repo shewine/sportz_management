@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sportz_management">
    <application
-        android:label="sportz_management"
+        android:label="Event Management"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

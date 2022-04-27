@@ -2,14 +2,16 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sportz_management/screens/home_screen.dart';
+import 'package:sportz_management/screens/old.dart';
 
+import '../admin/admin_nav_screen.dart';
 import '../resources/auth_methods.dart';
 import '../utils/colors.dart';
 import '../utils/utils.dart';
 import '../widgets/text_field_input.dart';
-import 'admin_screen.dart';
+import 'home_screens.dart';
 import 'login_screen.dart';
+import 'user_nav_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -65,7 +67,7 @@ class _LoginScreenState extends State<SignupScreen> {
       });
       // navigate to the home screen
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const UserNavScreen()),
       );
     } else {
       setState(() {
@@ -97,7 +99,7 @@ class _LoginScreenState extends State<SignupScreen> {
       });
       // navigate to the home screen
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const AdminScreen()),
+        MaterialPageRoute(builder: (context) => const AdminNavScreen()),
       );
     } else {
       setState(() {

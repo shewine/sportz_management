@@ -19,6 +19,15 @@ class AuthMethods {
     return model.User.fromSnap(documentSnapshot);
   }
 
+  // Future<model.Admin> getAdminDetails() async {
+  //   User currentUser = _auth.currentUser!;
+
+  //   DocumentSnapshot documentSnapshot =
+  //       await _firestore.collection('admin').doc(currentUser.uid).get();
+
+  //   return model.Admin.fromSnap(documentSnapshot);
+  // }
+
   Future<String> signUpUser({
     required String email,
     required String password,
